@@ -1,39 +1,50 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Nueva Tarea</title>
-</head>
-<body>
-    <h2>Crear Tarea</h2>
+@extends('layouts.app')
 
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $e)
-                <li>{{ $e }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h4>Nueva Tarea</h4></div>
+            <div class="card-body">
 
-    <form method="POST" action="{{ route('tasks.store') }}">
-        @csrf
-        <label>Título:<br>
-            <input type="text" name="title" value="{{ old('title') }}" required>
-        </label><br><br>
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $e)
+                                <li>{{ $e }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-        <label>Descripción:<br>
-            <textarea name="description">{{ old('description') }}</textarea>
-        </label><br><br>
+                <form method="POST" action="{{ route('tasks.store') }}">
+                    @csrf
 
-        <label>Estado:<br>
-            <select name="status">
-                <option value="pending">Pendiente</option>
-                <option value="completed">Completada</option>
-            </select>
-        </label><br><br>
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input type="text" name="title" class="form-control"
+                               value="{{ old('title') }}" required>
+                    </div>
 
-        <button type="submit">Guardar</button>
-        <a href="{{ route('tasks.index') }}">Cancelar</a>
-    </form>
-</body>
-</html>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="status" class="form-select">
+                            <option value="pending">Pendiente</option>
+                            <option value="completed">Completada</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Cancelar</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

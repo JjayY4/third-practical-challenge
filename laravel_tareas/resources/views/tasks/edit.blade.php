@@ -1,41 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Tarea</title>
-</head>
-<body>
-    <h2>Editar Tarea</h2>
+@extends('layouts.app')
 
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $e)
-                <li>{{ $e }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h4>Editar Tarea</h4></div>
+            <div class="card-body">
 
-    <form method="POST" action="{{ route('tasks.update', $task) }}">
-        @csrf
-        @method('PUT')
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $e)
+                                <li>{{ $e }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-        <label>Título:<br>
-            <input type="text" name="title" value="{{ old('title', $task->title) }}" required>
-        </label><br><br>
+                <form method="POST" action="{{ route('tasks.update', $task) }}">
+                    @csrf
+                    @method('PUT')
 
-        <label>Descripción:<br>
-            <textarea name="description">{{ old('description', $task->description) }}</textarea>
-        </label><br><br>
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input type="text" name="title" class="form-control"
+                               value="{{ old('title', $task->title) }}" required>
+                    </div>
 
-        <label>Estado:<br>
-            <select name="status">
-                <option value="pending"   {{ $task->status == 'pending'   ? 'selected' : '' }}>Pendiente</option>
-                <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completada</option>
-            </select>
-        </label><br><br>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="description" class="form-control" rows="3">{{ old('description', $task->description) }}</textarea>
+                    </div>
 
-        <button type="submit">Actualizar</button>
-        <a href="{{ route('tasks.index') }}">Cancelar</a>
-    </form>
-</body>
-</html>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="status" class="form-select">
+                            <option value="pending"   {{ $task->status == 'pending'   ? 'selected' : '' }}>Pendiente</option>
+                            <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completada</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning">Actualizar</button>
+                    <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Cancelar</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
